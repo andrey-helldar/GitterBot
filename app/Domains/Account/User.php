@@ -10,29 +10,65 @@
  */
 namespace Domains\Account;
 
-use Analogue\ORM\Entity;
-use Analogue\ORM\EntityCollection;
-use App\Jobs\AvatarSavingJob;
-use Domains\Service\Service;
-use Illuminate\Contracts\Queue\Queue;
+use App\Exceptions\NotImplementedException;
+use App\Support\Property\Getters;
+use App\Support\Property\Setters;
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation\Timestampable;
 
 /**
  * Class User
  * @package Domains\Account
- *
- *
- * @property string $login
- * @property string $password
- * @property string $email
- * @property string $avatar
- * @property string $remember_token
- * @property string $created_at
- * @property string $updated_at
- * @property EntityCollection $services
- *
+ * @ORM\Entity
  */
-class User extends Entity
+class User
 {
+    use Setters, Getters;
+
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="UUID")
+     * @ORM\Column(type="string")
+     */
+    protected $id;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    protected $login;
+
+    /**
+     * @ORM\Column(type="string", length=60, nullable=true)
+     */
+    protected $password;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $avatar;
+
+    /**
+     * @ORM\Column(name="remember_token", type="string", length=100, nullable=true)
+     */
+    protected $token;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Timestampable(on="create")
+     */
+    protected $created_at;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @Timestampable(on="update")
+     */
+    protected $updated_at;
+
     /**
      * User constructor.
      * @param string $login
@@ -42,58 +78,123 @@ class User extends Entity
     public function __construct(string $login, string $password = null, string $email = null)
     {
         $this->login = $login;
-        $this->password = $password;
         $this->email = $email;
-        $this->services = new EntityCollection();
-    }
 
-    /**
-     * @param Service $service
-     * @return $this
-     */
-    public function addService(Service $service)
-    {
-        $this->services->add($service);
-
-        return $this;
-    }
-
-    /**
-     * @param $avatar
-     * @return $this
-     */
-    public function setAvatarAttribute($avatar)
-    {
-        app(Queue::class)->push(AvatarSavingJob::class, [
-            'user'   => serialize($this),
-            'avatar' => (string)$avatar,
-        ]);
-
-        return $this;
-    }
-
-    /**
-     * @param $avatar
-     * @return $this
-     */
-    public function getAvatarAttribute($avatar)
-    {
-       if ($avatar) {
-           return $avatar;
-       }
-
-        return sprintf('https://github.com/identicons/%s.png', $this->login);
+        if ($password) {
+            $this->setPassword($password);
+        }
     }
 
     /**
      * @param $password
-     * @return $this
-     * @throws \RuntimeException
      */
-    public function setPasswordAttribute($password)
+    public function setPassword($password)
     {
-        $this->attributes['password'] = \Hash::make((string)$password);
+        $this->password = \Hash::make($password);
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    /**
+     * @param mixed $login
+     */
+    public function setLogin($login)
+    {
+        $this->login = $login;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param mixed $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * @param mixed $token
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updated_at;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPasswordHash()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param $avatar
+     * @throws NotImplementedException
+     */
+    public function setAvatar($avatar)
+    {
+        throw new NotImplementedException();
     }
 }

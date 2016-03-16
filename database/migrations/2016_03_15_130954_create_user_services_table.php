@@ -12,12 +12,13 @@ class CreateUserServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('services', function(Blueprint $table) {
-            $table->string('cuid', 25)->primary();
-            $table->string('user_cuid', 25)->index();
+        Schema::create('user_services', function(Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->uuid('user_id')->index();
+            
             $table->string('name');
-            $table->string('service_user_login');
-            $table->string('service_user_id');
+            $table->string('user_service_login');
+            $table->string('user_service_id');
         });
     }
 
@@ -28,6 +29,6 @@ class CreateUserServicesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('services');
+        Schema::drop('user_services');
     }
 }

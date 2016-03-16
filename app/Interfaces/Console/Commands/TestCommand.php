@@ -28,9 +28,6 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        /** @var User $user */
-        $user = (new \Users())->all()->first();
-
-        $user->avatar = 'https://github.com/identicons/serafimarts.png';
+        
     }
 }

@@ -57,14 +57,9 @@ class AvatarSavingJob extends Job implements SelfHandling, ShouldQueue
         /** @var string $avatar */
         $avatar = $args['avatar'];
 
-        /** @var Manager $orm */
-        $orm = app(Manager::class);
 
         $publisher = new AvatarPublisher($avatar);
-        $file = $publisher->publish();
-        $fileUrl = $this->url . '/' . $file;
 
-        $user->setEntityAttribute('avatar', $fileUrl);
-        $orm->store($user);
+        $publisher->attachEntity($user, 'avatar');
     }
 }

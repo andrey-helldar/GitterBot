@@ -10,16 +10,11 @@
  */
 namespace Domains\Service;
 
-use Analogue\ORM\ValueObject;
-
 /**
  * Class ServiceUser
  * @package Domains\Service
- *
- * @property string $id
- * @property string $login
  */
-class ServiceUser extends ValueObject
+class ServiceUser
 {
     /**
      * UserInfo constructor.

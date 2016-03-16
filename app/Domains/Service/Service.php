@@ -10,18 +10,11 @@
  */
 namespace Domains\Service;
 
-use Analogue\ORM\Entity;
-use Domains\Account\User;
-
 /**
  * Class Service
  * @package Domains\Account
- *
- * @property string $name
- * @property User $user
- * @property ServiceUser $info
  */
-class Service extends Entity
+class Service
 {
     /**
      * Service constructor.

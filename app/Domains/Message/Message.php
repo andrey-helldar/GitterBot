@@ -10,13 +10,18 @@
  */
 namespace Domains\Message;
 
-use Analogue\ORM\Entity;
-
 /**
  * Class Message
  * @package Domains\Message
  */
-class Message extends Entity
+class Message
 {
-
+    /**
+     * Message constructor.
+     * @param string $text
+     */
+    public function __construct(string $text)
+    {
+        $this->text = $text;
+    }
 }

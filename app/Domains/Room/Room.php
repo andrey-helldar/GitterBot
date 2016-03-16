@@ -3,14 +3,19 @@
  * This file is part of KarmaBot package.
  *
  * @author Serafim <nesk@xakep.ru>
- * @date 15.03.2016 17:13
+ * @date 16.03.2016 16:48
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace App\Bot;
+namespace Domains\Room;
 
-abstract class Middleware
+
+/**
+ * Class Room
+ * @package Domains\Room
+ */
+class Room
 {
     
 }

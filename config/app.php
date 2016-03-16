@@ -140,8 +140,9 @@ return [
         /*
          * Vendor Packages Service Providers...
          */
+        LaravelDoctrine\ORM\DoctrineServiceProvider::class,
+        LaravelDoctrine\Extensions\GedmoExtensionsServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Analogue\ORM\AnalogueServiceProvider::class,
         Intervention\Image\ImageServiceProviderLaravel5::class,
 
         /*
@@ -201,11 +202,11 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View'      => Illuminate\Support\Facades\View::class,
         'Image'     => Intervention\Image\Facades\Image::class,
-        'Orm'       => Analogue\ORM\AnalogueFacade::class,
 
-        // Repositories
-        'Users'     => App\Repositories\UserRepository::class,
-        'Services'  => App\Repositories\ServiceRepository::class,
+        // Orm
+        'EntityManager' => LaravelDoctrine\ORM\Facades\EntityManager::class,
+        'Registry'      => LaravelDoctrine\ORM\Facades\Registry::class,
+        'Doctrine'      => LaravelDoctrine\ORM\Facades\Doctrine::class,
     ],
 
 ];
